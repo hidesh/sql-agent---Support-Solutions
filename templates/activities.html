@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aktiviteter - Support Solutions CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="container-fluid">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <h1 class="hero-title">
+                    <i class="fas fa-calendar me-3"></i>Aktivitets Log
+                </h1>
+                <p class="hero-subtitle">
+                    Følg alle kundeinteraktioner og projektaktiviteter
+                </p>
+                
+                <!-- CRM Navigation -->
+                <div class="crm-nav">
+                    <a href="/" class="nav-btn">
+                        <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                    </a>
+                    <a href="/customers" class="nav-btn">
+                        <i class="fas fa-users me-1"></i> Kunder
+                    </a>
+                    <a href="/deals" class="nav-btn">
+                        <i class="fas fa-handshake me-1"></i> Deals
+                    </a>
+                    <a href="/projects" class="nav-btn">
+                        <i class="fas fa-project-diagram me-1"></i> Projekter
+                    </a>
+                    <a href="/consultants" class="nav-btn">
+                        <i class="fas fa-user-tie me-1"></i> Konsulenter
+                    </a>
+                    <a href="/activities" class="nav-btn active">
+                        <i class="fas fa-calendar me-1"></i> Aktiviteter
+                    </a>
+                </div>
+            </div>
+
+            <!-- Activity Stats -->
+            <div class="quick-insights">
+                <div class="insight-card">
+                    <div class="insight-number">{{ stats.total_activities or 0 }}</div>
+                    <div class="insight-label">Total Aktiviteter</div>
+                    <div class="insight-trend"><i class="fas fa-calendar"></i> Alle aktiviteter</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">{{ stats.this_week or 0 }}</div>
+                    <div class="insight-label">Denne uge</div>
+                    <div class="insight-trend"><i class="fas fa-chart-line"></i> Aktivitet niveau</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">{{ stats.meetings_calls or 0 }}</div>
+                    <div class="insight-label">Møder & Opkald</div>
+                    <div class="insight-trend"><i class="fas fa-phone"></i> Kunde kontakt</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">{{ stats.follow_ups or 0 }}</div>
+                    <div class="insight-label">Kræver opfølgning</div>
+                    <div class="insight-trend"><i class="fas fa-exclamation"></i> Action items</div>
+                </div>
+            </div>
+
+            <!-- Main Card -->
+            <div class="glass-card">
+                <div class="search-section">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3><i class="fas fa-calendar me-2"></i>Seneste Aktiviteter</h3>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary btn-sm active" onclick="filterActivities('all')">
+                                <i class="fas fa-globe"></i> Alle
+                            </button>
+                            <button class="btn btn-outline-success btn-sm" onclick="filterActivities('meetings')">
+                                <i class="fas fa-users"></i> Møder
+                            </button>
+                            <button class="btn btn-outline-info btn-sm" onclick="filterActivities('calls')">
+                                <i class="fas fa-phone"></i> Opkald
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="filterActivities('follow_up')">
+                                <i class="fas fa-exclamation"></i> Follow-up
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Activity Filters -->
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="activitySearch" placeholder="Søg i aktiviteter...">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="typeFilter">
+                                <option value="">Alle typer</option>
+                                <option value="Meeting">Møde</option>
+                                <option value="Call">Opkald</option>
+                                <option value="Email">Email</option>
+                                <option value="Task">Opgave</option>
+                                <option value="Note">Note</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="outcomeFilter">
+                                <option value="">Alle resultater</option>
+                                <option value="Positive">Positive</option>
+                                <option value="Neutral">Neutral</option>
+                                <option value="Negative">Negative</option>
+                                <option value="Follow-up needed">Kræver opfølgning</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control" id="dateFilter" value="{{ current_date }}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Timeline -->
+                <div class="result-section">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="activity-timeline" id="activityTimeline">
+                                {% for activity in activities %}
+                                <div class="activity-item" data-type="{{ activity.type }}" data-outcome="{{ activity.outcome }}">
+                                    <div class="activity-icon">
+                                        {% if activity.type == 'Meeting' %}
+                                        <i class="fas fa-users text-primary"></i>
+                                        {% elif activity.type == 'Call' %}
+                                        <i class="fas fa-phone text-success"></i>
+                                        {% elif activity.type == 'Email' %}
+                                        <i class="fas fa-envelope text-info"></i>
+                                        {% elif activity.type == 'Task' %}
+                                        <i class="fas fa-tasks text-warning"></i>
+                                        {% else %}
+                                        <i class="fas fa-sticky-note text-secondary"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-header d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h5 class="mb-1">{{ activity.subject }}</h5>
+                                                <div class="activity-meta">
+                                                    <span class="badge bg-light text-dark me-2">{{ activity.type }}</span>
+                                                    <span class="text-muted me-2">
+                                                        <i class="fas fa-building me-1"></i>{{ activity.customer_name or 'Intern' }}
+                                                    </span>
+                                                    <span class="text-muted me-2">
+                                                        <i class="fas fa-user me-1"></i>{{ activity.consultant_name or 'Systembruger' }}
+                                                    </span>
+                                                    {% if activity.duration %}
+                                                    <span class="text-muted">
+                                                        <i class="fas fa-clock me-1"></i>{{ activity.duration }} min
+                                                    </span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <small class="text-muted">{{ activity.activity_date }}</small>
+                                                {% if activity.outcome %}
+                                                <br>
+                                                <span class="status-badge mt-1 
+                                                    {% if activity.outcome == 'Positive' %}badge-active{% endif %}
+                                                    {% if activity.outcome == 'Neutral' %}badge-planning{% endif %}
+                                                    {% if activity.outcome == 'Negative' %}badge-progress{% endif %}
+                                                    {% if activity.outcome == 'Follow-up needed' %}badge-won{% endif %}
+                                                ">{{ activity.outcome }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% if activity.description %}
+                                        <p class="activity-description mb-2">{{ activity.description }}</p>
+                                        {% endif %}
+                                        <div class="activity-actions">
+                                            <button class="btn btn-sm btn-outline-primary" data-activity-id="{{ activity.id }}" onclick="viewDetails(this.dataset.activityId)">
+                                                <i class="fas fa-eye"></i> Detaljer
+                                            </button>
+                                            {% if activity.outcome == 'Follow-up needed' %}
+                                            <button class="btn btn-sm btn-outline-warning" data-activity-id="{{ activity.id }}" onclick="createFollowUp(this.dataset.activityId)">
+                                                <i class="fas fa-plus"></i> Opfølgning
+                                            </button>
+                                            {% endif %}
+                                            {% if activity.customer_id %}
+                                            <a href="/customer/{{ activity.customer_id }}" class="btn btn-sm btn-outline-info">
+                                                <i class="fas fa-building"></i> Se kunde
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .activity-timeline {
+            position: relative;
+        }
+        
+        .activity-item {
+            display: flex;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-header h5 {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .activity-meta {
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity-description {
+            color: var(--secondary);
+            line-height: 1.5;
+        }
+        
+        .activity-actions {
+            margin-top: 1rem;
+        }
+        
+        .activity-actions .btn {
+            margin-right: 0.5rem;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function filterActivities(type) {
+            const items = document.querySelectorAll('.activity-item');
+            
+            // Update button states
+            document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            items.forEach(item => {
+                const itemType = item.dataset.type;
+                const outcome = item.dataset.outcome;
+                
+                switch(type) {
+                    case 'all':
+                        item.style.display = 'flex';
+                        break;
+                    case 'meetings':
+                        item.style.display = itemType === 'Meeting' ? 'flex' : 'none';
+                        break;
+                    case 'calls':
+                        item.style.display = itemType === 'Call' ? 'flex' : 'none';
+                        break;
+                    case 'follow_up':
+                        item.style.display = outcome === 'Follow-up needed' ? 'flex' : 'none';
+                        break;
+                }
+            });
+        }
+        
+        // Search functionality
+        document.getElementById('activitySearch').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const items = document.querySelectorAll('.activity-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+            });
+        });
+        
+        // Type filter
+        document.getElementById('typeFilter').addEventListener('change', function() {
+            const selectedType = this.value;
+            const items = document.querySelectorAll('.activity-item');
+            
+            items.forEach(item => {
+                if (!selectedType || item.dataset.type === selectedType) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Outcome filter
+        document.getElementById('outcomeFilter').addEventListener('change', function() {
+            const selectedOutcome = this.value;
+            const items = document.querySelectorAll('.activity-item');
+            
+            items.forEach(item => {
+                if (!selectedOutcome || item.dataset.outcome === selectedOutcome) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        function viewDetails(activityId) {
+            alert('Viser detaljer for aktivitet ID: ' + activityId);
+        }
+        
+        function createFollowUp(activityId) {
+            alert('Opretter opfølgnings-aktivitet for ID: ' + activityId);
+        }
+    </script>
+</body>
+</html>

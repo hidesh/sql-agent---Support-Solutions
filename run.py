@@ -1,0 +1,36 @@
+from app.db import run_query, run_action
+from app.agent import ask
+
+def main():
+    print("Tester databaseforbindelsen...\n")
+
+    # 1. Læs de første 5 kunder
+    customers = run_query("SELECT * FROM customers LIMIT 5;")
+    print("De første kunder:", customers)
+
+    # 2. Slet eksisterende test kunde hvis den findes
+    run_action("DELETE FROM customers WHERE id = ?", (999,))
+    
+    # 3. Indsæt en ny kunde (demo)
+    run_action(
+        "INSERT INTO customers (id, name, email, country) VALUES (?, ?, ?, ?)", 
+        (999, "Test Kunde", "test@example.com", "Denmark")
+    )
+    print("Ny kunde indsat.")
+
+    # 4. Hent den nye kunde
+    new_customer = run_query("SELECT * FROM customers WHERE id = ?", (999,))
+    print("Ny kunde hentet:", new_customer)
+    
+    # 5. Vis alle danske kunder
+    danish_customers = run_query("SELECT * FROM customers WHERE country = ?", ("Denmark",))
+    print("Danske kunder:", danish_customers)
+    
+    # 6. Test AI agent
+    print("\n=== AI Agent Test ===")
+    print("Spørgsmål: Hent alle kunder fra Denmark")
+    result = ask("Hent alle kunder fra Denmark")
+    print("AI Svar:", result)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,276 @@
+:root {
+    /* Support Solutions Brand Colors - Based on their actual palette */
+    --primary: #333333;           /* Main dark gray from their design */
+    --primary-dark: #000000;      /* True black */
+    --secondary: #696969;         /* Medium gray */
+    --success: #1634F;           /* Blue accent from palette */
+    --danger: #FF9C00;           /* Orange accent - using as alert color */
+    --warning: #444655;          /* Purple-gray from palette */
+    --info: #0E1F3F;            /* Dark blue */
+    --light-bg: #F6F6F6;        /* Very light gray background */
+    --border: #E6E6E6;          /* Light gray border */
+    --support-blue: #1634F;     /* Brand blue */
+    --support-light: #A8AABC;   /* Light purple-gray */
+    
+    /* Extended palette colors */
+    --accent: #4E5056;          /* Text color dark */
+    --text-primary: #333333;
+    --text-secondary: #696969;
+    --text-muted: #A8AABC;
+    --text-white: #FFFFFF;
+    --color-orange: #FF9C00;    /* Orange accent */
+    --color-blue-navy: #0E1F3F;
+}
+
+body {
+    background: linear-gradient(135deg, #333333 0%, #696969 50%, #A8AABC 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+}
+
+.main-container {
+    min-height: 100vh;
+    padding: 1rem 0;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+}
+
+.hero-section {
+    text-align: center;
+    padding: 2rem 2rem 1rem 2rem;
+    color: white;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #fff, #F6F6F6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.crm-nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1rem;
+    margin: 1rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.search-section {
+    padding: 1.5rem 2rem;
+}
+
+.quick-insights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1rem;
+}
+
+.insight-card {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.insight-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(51, 51, 51, 0.3);
+}
+
+.insight-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.insight-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.insight-trend {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+.result-section {
+    padding: 1.5rem 2rem;
+    margin-top: 1rem;
+}
+
+.table-responsive {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.table {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.table thead th {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    position: sticky;
+    top: 0;
+}
+
+.table tbody td {
+    padding: 0.75rem;
+    border-color: var(--border);
+    vertical-align: middle;
+}
+
+.table tbody tr:nth-child(even) {
+    background: var(--light-bg);
+}
+
+.table tbody tr:hover {
+    background: var(--light-bg);
+}
+
+.status-badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.badge-active { background: #e8f5e8; color: #1b5e20; }
+.badge-progress { background: #fff3e0; color: #f57c00; }
+.badge-won { background: #e3f2fd; color: var(--support-blue); }
+.badge-planning { background: var(--light-bg); color: var(--primary); }
+
+.btn-group .btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .quick-insights {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+}
+
+/* Support Solutions Specific Styling */
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    border-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--secondary), var(--primary));
+    border-color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.border-primary {
+    border-color: var(--primary) !important;
+}
+
+/* Orange accent buttons */
+.btn-warning {
+    background: var(--color-orange);
+    border-color: var(--color-orange);
+    color: white;
+}
+
+.btn-outline-warning {
+    color: var(--color-orange);
+    border-color: var(--color-orange);
+}
+
+.btn-outline-warning:hover {
+    background-color: var(--color-orange);
+    border-color: var(--color-orange);
+    color: white;
+}
+
+/* Progress bars with Support Solutions colors */
+.progress-bar {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+}
+
+.progress-bar-success {
+    background: linear-gradient(45deg, #1b5e20, #4caf50);
+}
+
+.progress-bar-warning {
+    background: linear-gradient(45deg, var(--color-orange), #ff8a65);
+}

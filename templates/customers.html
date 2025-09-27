@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunder - Support Solutions CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="container-fluid">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <h1 class="hero-title">
+                    <i class="fas fa-users me-3"></i>Kunde Oversigt
+                </h1>
+                <p class="hero-subtitle">
+                    Administrer og følg Support Solutions' kundebase
+                </p>
+                
+                <!-- CRM Navigation -->
+                <div class="crm-nav">
+                    <a href="/" class="nav-btn">
+                        <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                    </a>
+                    <a href="/customers" class="nav-btn active">
+                        <i class="fas fa-users me-1"></i> Kunder
+                    </a>
+                    <a href="/deals" class="nav-btn">
+                        <i class="fas fa-handshake me-1"></i> Deals
+                    </a>
+                    <a href="/projects" class="nav-btn">
+                        <i class="fas fa-project-diagram me-1"></i> Projekter
+                    </a>
+                    <a href="/consultants" class="nav-btn">
+                        <i class="fas fa-user-tie me-1"></i> Konsulenter
+                    </a>
+                    <a href="/activities" class="nav-btn">
+                        <i class="fas fa-calendar me-1"></i> Aktiviteter
+                    </a>
+                </div>
+            </div>
+
+            <!-- Customer Stats -->
+            <div class="quick-insights">
+                <div class="insight-card">
+                    <div class="insight-number">{{ stats.total_customers or 0 }}</div>
+                    <div class="insight-label">Total Kunder</div>
+                    <div class="insight-trend"><i class="fas fa-users"></i> Alle kunder</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">{{ stats.active_customers or 0 }}</div>
+                    <div class="insight-label">Aktive Kunder</div>
+                    <div class="insight-trend"><i class="fas fa-check"></i> I samarbejde</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">{{ (stats.total_value/1000000)|round(1) if stats.total_value else 0 }}M</div>
+                    <div class="insight-label">Total Kundeværdi</div>
+                    <div class="insight-trend"><i class="fas fa-money-bill-wave"></i> DKK</div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-number">{{ (stats.avg_value/1000)|round(0) if stats.avg_value else 0 }}K</div>
+                    <div class="insight-label">Gennemsnit per Kunde</div>
+                    <div class="insight-trend"><i class="fas fa-chart-bar"></i> DKK</div>
+                </div>
+            </div>
+
+            <!-- Main Card -->
+            <div class="glass-card">
+                <div class="search-section">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3><i class="fas fa-users me-2"></i>Alle Kunder</h3>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary btn-sm" onclick="filterCustomers('all')">
+                                <i class="fas fa-globe"></i> Alle
+                            </button>
+                            <button class="btn btn-outline-success btn-sm" onclick="filterCustomers('active')">
+                                <i class="fas fa-check"></i> Aktive
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="filterCustomers('prospect')">
+                                <i class="fas fa-eye"></i> Prospects
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search Customer -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="customerSearch" placeholder="Søg efter virksomhed, kontaktperson eller email...">
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-control" id="industryFilter">
+                                <option value="">Alle brancher</option>
+                                {% for industry in industries %}
+                                <option value="{{ industry }}">{{ industry }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer List -->
+                <div class="result-section">
+                    <div class="table-responsive">
+                        <table class="table" id="customerTable">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-building me-1"></i>Virksomhed</th>
+                                    <th><i class="fas fa-user me-1"></i>Kontaktperson</th>
+                                    <th><i class="fas fa-envelope me-1"></i>Email</th>
+                                    <th><i class="fas fa-industry me-1"></i>Branche</th>
+                                    <th><i class="fas fa-users-cog me-1"></i>Størrelse</th>
+                                    <th><i class="fas fa-money-bill me-1"></i>Total Værdi</th>
+                                    <th><i class="fas fa-calendar me-1"></i>Kunde siden</th>
+                                    <th><i class="fas fa-flag me-1"></i>Status</th>
+                                    <th><i class="fas fa-cogs me-1"></i>Handlinger</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for customer in customers %}
+                                <tr data-status="{{ customer.status }}" data-industry="{{ customer.industry }}">
+                                    <td>
+                                        <strong>{{ customer.company_name }}</strong>
+                                        <br><small class="text-muted">{{ customer.city or '' }}</small>
+                                    </td>
+                                    <td>
+                                        {{ customer.contact_person }}
+                                        {% if customer.phone %}
+                                        <br><small><i class="fas fa-phone"></i> {{ customer.phone }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="mailto:{{ customer.email }}" class="text-primary">{{ customer.email }}</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">{{ customer.industry }}</span>
+                                    </td>
+                                    <td>{{ customer.company_size }}</td>
+                                    <td>
+                                        <strong>
+                                            {% if customer.total_value > 1000000 %}
+                                                {{ (customer.total_value/1000000)|round(1) }}M DKK
+                                            {% elif customer.total_value > 1000 %}
+                                                {{ (customer.total_value/1000)|round(0) }}K DKK
+                                            {% else %}
+                                                {{ customer.total_value|round(0) }} DKK
+                                            {% endif %}
+                                        </strong>
+                                    </td>
+                                    <td>{{ customer.customer_since or '-' }}</td>
+                                    <td>
+                                        <span class="status-badge 
+                                            {% if customer.status == 'Active' %}badge-active{% endif %}
+                                            {% if customer.status == 'Prospect' %}badge-planning{% endif %}
+                                            {% if customer.status == 'Inactive' %}badge-progress{% endif %}
+                                        ">{{ customer.status }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/customer/{{ customer.id }}" class="btn btn-outline-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-outline-info" data-customer-id="{{ customer.id }}" onclick="viewCustomerProjects(this.dataset.customerId)">
+                                                <i class="fas fa-project-diagram"></i>
+                                            </button>
+                                            <button class="btn btn-outline-success" data-customer-id="{{ customer.id }}" onclick="viewCustomerDeals(this.dataset.customerId)">
+                                                <i class="fas fa-handshake"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function filterCustomers(status) {
+            const rows = document.querySelectorAll('#customerTable tbody tr');
+            
+            // Update button states
+            document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            rows.forEach(row => {
+                if (status === 'all') {
+                    row.style.display = '';
+                } else if (status === 'active') {
+                    row.style.display = row.dataset.status === 'Active' ? '' : 'none';
+                } else if (status === 'prospect') {
+                    row.style.display = row.dataset.status === 'Prospect' ? '' : 'none';
+                }
+            });
+        }
+        
+        // Search functionality
+        document.getElementById('customerSearch').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#customerTable tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+        
+        // Industry filter
+        document.getElementById('industryFilter').addEventListener('change', function() {
+            const selectedIndustry = this.value;
+            const rows = document.querySelectorAll('#customerTable tbody tr');
+            
+            rows.forEach(row => {
+                if (!selectedIndustry || row.dataset.industry === selectedIndustry) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        function viewCustomerProjects(customerId) {
+            window.location.href = `/projects?customer=${customerId}`;
+        }
+        
+        function viewCustomerDeals(customerId) {
+            window.location.href = `/deals?customer=${customerId}`;
+        }
+    </script>
+</body>
+</html>
