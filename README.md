@@ -298,11 +298,7 @@ Dette projekt er licenseret under MIT License - se [LICENSE](LICENSE) filen for 
 
 ## 👨‍💻 Udviklet af
 
-**Support Solutions ApS**
-- 📧 Email: info@support-solutions.dk
-- 🌐 Website: [support-solutions.dk](https://support-solutions.dk/)
-- 📍 Adresse: Lavendelstræde 17c, 3, 1462 København K
-- 🏢 CVR: 42694819
+**Hidesh Kumar**
 
 ---
 
