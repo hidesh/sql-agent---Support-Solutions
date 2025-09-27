@@ -25,6 +25,8 @@ Support Solutions CRM er et moderne, AI-drevet CRM system udviklet til danske IT
 - 👨‍💼 **Konsulent Management** - Timepriser og specialer
 - 📅 **Aktivitetslog** - Sporing af alle kundeinteraktioner
 - 🎨 **Support Solutions Branding** - Tilpasset design med virksomhedens farvepalette
+- ⚡ **Loading Animationer** - Flot wave loading animation under query processing
+- 🔽 **Collapsible Sektioner** - Clean UI med CTA buttons for bedre brugeroplevelse
 
 ## 🏗️ Systemarkitektur
 
@@ -269,6 +271,17 @@ erDiagram
 ```
 
 ## 🎯 Brug af Systemet
+
+### 🎨 Moderne UI/UX Features
+
+**Collapsible Sektioner:**
+- 💡 **Query Eksempler** - CTA button viser/skjuler AI forslag for cleaner interface
+- ❓ **CRM Forespørgsel** - Kollapsbar visning af brugerens spørgsmål
+- 🔧 **SQL Query** - Tekniske detaljer kun synlige ved behov
+
+**Loading Animation:**
+- ⚡ **Wave Loading** - Flot animeret loading under AI processing
+- 🧠 **Smart Feedback** - "AI analyserer dit CRM spørgsmål..." besked
 
 ### AI Query Eksempler
 - "Vis alle aktive kunder sorteret efter værdi"

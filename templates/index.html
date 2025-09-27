@@ -386,9 +386,14 @@
         <div class="container-fluid">
             <!-- Hero Section -->
             <div class="hero-section">
-                <h1 class="hero-title">
-                    <i class="fas fa-chart-line me-3"></i>Support Solutions CRM
-                </h1>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                    <img src="https://support-solutions.dk/wp-content/uploads/Logo-hvid-web.png" 
+                         alt="Support Solutions Logo" 
+                         style="height: 60px; width: auto; margin-right: 1rem;">
+                    <h1 class="hero-title mb-0">
+                        Support Solutions CRM
+                    </h1>
+                </div>
                 <p class="hero-subtitle">
                     Intelligent Customer Relationship Management System
                 </p>
@@ -459,60 +464,90 @@
                         </div>
                     </form>
 
-                    <!-- CRM Example Queries -->
-                    <div class="example-queries">
-                        <div class="query-category">
-                            <div class="category-title"><i class="fas fa-users me-1"></i> Kunder</div>
-                            <div class="example-query" onclick="fillQuery('Vis alle kunder sorteret efter værdi')">Top kunder efter værdi</div>
-                            <div class="example-query" onclick="fillQuery('Hvilke kunder har vi i finanssektoren?')">Finanssektorens kunder</div>
-                            <div class="example-query" onclick="fillQuery('Nye kunder i 2024')">Nye kunder 2024</div>
-                        </div>
-                        
-                        <div class="query-category">
-                            <div class="category-title"><i class="fas fa-handshake me-1"></i> Sales & Deals</div>
-                            <div class="example-query" onclick="fillQuery('Vis deals der lukker denne måned')">Lukkende deals</div>
-                            <div class="example-query" onclick="fillQuery('Hvilke deals har høj sandsynlighed?')">Hot prospects</div>
-                            <div class="example-query" onclick="fillQuery('Total dealværdi pr konsulent')">Sales performance</div>
-                        </div>
-                        
-                        <div class="query-category">
-                            <div class="category-title"><i class="fas fa-project-diagram me-1"></i> Projekter</div>
-                            <div class="example-query" onclick="fillQuery('Aktive projekter med status')">Igangværende projekter</div>
-                            <div class="example-query" onclick="fillQuery('Projekter over budget')">Budget overskridelser</div>
-                            <div class="example-query" onclick="fillQuery('Gennemsnitlig projektvarighed')">Projekt performance</div>
-                        </div>
-                        
-                        <div class="query-category">
-                            <div class="category-title"><i class="fas fa-chart-bar me-1"></i> Analytik</div>
-                            <div class="example-query" onclick="fillQuery('Monthly revenue trend')">Månedlig omsætning</div>
-                            <div class="example-query" onclick="fillQuery('Konsulent utilization rate')">Konsulent udnyttelse</div>
-                            <div class="example-query" onclick="fillQuery('Customer satisfaction scores')">Kundetilfredshed</div>
+                    <!-- Collapsible CRM Example Queries -->
+                    <button class="collapse-btn" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#exampleQueries" aria-expanded="false" 
+                            aria-controls="exampleQueries">
+                        <i class="fas fa-lightbulb"></i>
+                        Vis CRM Query Eksempler
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    
+                    <div class="collapse" id="exampleQueries">
+                        <div class="example-queries">
+                            <div class="query-category">
+                                <div class="category-title"><i class="fas fa-users me-1"></i> Kunder</div>
+                                <div class="example-query" onclick="fillQuery('Vis alle kunder sorteret efter værdi')">Top kunder efter værdi</div>
+                                <div class="example-query" onclick="fillQuery('Hvilke kunder har vi i finanssektoren?')">Finanssektorens kunder</div>
+                                <div class="example-query" onclick="fillQuery('Nye kunder i 2024')">Nye kunder 2024</div>
+                            </div>
+                            
+                            <div class="query-category">
+                                <div class="category-title"><i class="fas fa-handshake me-1"></i> Sales & Deals</div>
+                                <div class="example-query" onclick="fillQuery('Vis deals der lukker denne måned')">Lukkende deals</div>
+                                <div class="example-query" onclick="fillQuery('Hvilke deals har høj sandsynlighed?')">Hot prospects</div>
+                                <div class="example-query" onclick="fillQuery('Total dealværdi pr konsulent')">Sales performance</div>
+                            </div>
+                            
+                            <div class="query-category">
+                                <div class="category-title"><i class="fas fa-project-diagram me-1"></i> Projekter</div>
+                                <div class="example-query" onclick="fillQuery('Aktive projekter med status')">Igangværende projekter</div>
+                                <div class="example-query" onclick="fillQuery('Projekter over budget')">Budget overskridelser</div>
+                                <div class="example-query" onclick="fillQuery('Gennemsnitlig projektvarighed')">Projekt performance</div>
+                            </div>
+                            
+                            <div class="query-category">
+                                <div class="category-title"><i class="fas fa-chart-bar me-1"></i> Analytik</div>
+                                <div class="example-query" onclick="fillQuery('Monthly revenue trend')">Månedlig omsætning</div>
+                                <div class="example-query" onclick="fillQuery('Konsulent utilization rate')">Konsulent udnyttelse</div>
+                                <div class="example-query" onclick="fillQuery('Customer satisfaction scores')">Kundetilfredshed</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {% if question %}
                 <div class="result-section">
-                    <!-- Query Display -->
-                    <div class="result-card">
-                        <h5 class="mb-3">
-                            <i class="fas fa-question-circle me-2 text-primary"></i>CRM Forespørgsel:
-                        </h5>
-                        <div class="alert alert-info alert-custom">
-                            <strong>"{{ question }}"</strong>
+                    <!-- Collapsible Query Display -->
+                    <button class="collapse-btn" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#queryDisplay" aria-expanded="false" 
+                            aria-controls="queryDisplay">
+                        <i class="fas fa-question-circle"></i>
+                        CRM Forespørgsel: "{{ question }}"
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    
+                    <div class="collapse" id="queryDisplay">
+                        <div class="result-card">
+                            <h5 class="mb-3">
+                                <i class="fas fa-question-circle me-2 text-primary"></i>CRM Forespørgsel:
+                            </h5>
+                            <div class="alert alert-info alert-custom">
+                                <strong>"{{ question }}"</strong>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- SQL Display -->
-                    <div class="result-card">
-                        <h5 class="mb-3">
-                            <i class="fas fa-code me-2 text-primary"></i>Genereret SQL Query:
-                        </h5>
-                        <div class="sql-code">
-                            <button class="copy-btn" onclick="copySQL()">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                            <span id="sqlContent">{{ sql }}</span>
+                    <!-- Collapsible SQL Display -->
+                    <button class="collapse-btn" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#sqlDisplay" aria-expanded="false" 
+                            aria-controls="sqlDisplay">
+                        <i class="fas fa-code"></i>
+                        Vis Genereret SQL Query
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    
+                    <div class="collapse" id="sqlDisplay">
+                        <div class="result-card">
+                            <h5 class="mb-3">
+                                <i class="fas fa-code me-2 text-primary"></i>Genereret SQL Query:
+                            </h5>
+                            <div class="sql-code">
+                                <button class="copy-btn" onclick="copySQL()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <span id="sqlContent">{{ sql }}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -637,13 +672,101 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Loading Animation
+        function showLoading() {
+            // Først skjul search section
+            const searchSection = document.querySelector('.search-section');
+            if (searchSection) {
+                searchSection.style.opacity = '0.5';
+                searchSection.style.pointerEvents = 'none';
+            }
+
+            // Find eller opret result section
+            let resultSection = document.querySelector('.result-section');
+            if (!resultSection) {
+                const mainCard = document.querySelector('.glass-card');
+                const loadingHTML = `
+                    <div class="result-section">
+                        <div class="loading-container">
+                            <div class="loader"></div>
+                            <div class="loading-text">
+                                <i class="fas fa-brain me-2"></i>AI analyserer dit CRM spørgsmål...
+                            </div>
+                        </div>
+                    </div>
+                `;
+                mainCard.insertAdjacentHTML('beforeend', loadingHTML);
+            } else {
+                // Erstat indhold med loading
+                resultSection.innerHTML = `
+                    <div class="loading-container">
+                        <div class="loader"></div>
+                        <div class="loading-text">
+                            <i class="fas fa-brain me-2"></i>AI analyserer dit CRM spørgsmål...
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Scroll til loading section
+            const loadingContainer = document.querySelector('.loading-container');
+            if (loadingContainer) {
+                setTimeout(() => {
+                    loadingContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+        }
+
+        // Form submit handler med bedre loading
+        document.getElementById('queryForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Ændr knap til loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyserer...';
+            submitBtn.disabled = true;
+            
+            // Vis loading animation
+            showLoading();
+            
+            // Let form submit efter kort delay for at vise animation
+            setTimeout(() => {
+                // Reset button efter submit (hvis der er fejl)
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    const searchSection = document.querySelector('.search-section');
+                    if (searchSection) {
+                        searchSection.style.opacity = '1';
+                        searchSection.style.pointerEvents = 'auto';
+                    }
+                }, 3000);
+            }, 200);
+        });
+
         function fillQuery(query) {
             document.querySelector('input[name="question"]').value = query;
         }
         
         function setQuery(query) {
             document.querySelector('input[name="question"]').value = query;
-            document.getElementById('queryForm').submit();
+            
+            // Trigger loading animation
+            const event = new Event('submit');
+            const form = document.getElementById('queryForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            // Ændr knap til loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyserer...';
+            submitBtn.disabled = true;
+            
+            // Vis loading
+            showLoading();
+            
+            // Submit efter delay
+            setTimeout(() => {
+                form.submit();
+            }, 500);
         }
         
         function setNavActive(element) {
