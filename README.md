@@ -284,10 +284,16 @@ erDiagram
 - 🧠 **Smart Feedback** - "AI analyserer dit CRM spørgsmål..." besked
 
 ### AI Query Eksempler
-- "Vis alle aktive kunder sorteret efter værdi"
-- "Hvilke deals er der i Proposal stadiet?"
-- "Hvad er den gennemsnitlige timepris for konsulenter?"
-- "Vis projekter der er over budget"
+**Geografisk intelligens:**
+- "Kunder fra Jylland" → Automatisk konverteret til postnummer 6000-9999
+- "Finanskunder i København" → Kombinerer branche og geografisk søgning
+- "IT virksomheder i Midtjylland" → Forstår både branche og region
+
+**Smart forståelse:**
+- "Store kunder" → Sorteret efter total_value DESC
+- "Nye kunder" → customer_since >= 12 måneder siden
+- "Hot prospects" → probability >= 75% AND aktiv stage
+- "Projekter over budget" → actual_cost > budget
 
 ### Navigation
 - **Dashboard**: AI queries og KPI oversigt

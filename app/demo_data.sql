@@ -129,7 +129,12 @@ INSERT INTO customers (company_name, contact_person, email, phone, address, city
 ('MedTech Innovations', 'Jens Poulsen', 'jens@medtech.dk', '+45 21 56 78 90', 'Sundhedsvej 15', 'Aalborg', '9000', 'Healthcare', 'Medium', '2023-05-12', 450000),
 ('Danish Logistics Pro', 'Mette Hansen', 'mette@logisticspro.dk', '+45 32 67 89 01', 'Transportvej 67', 'Esbjerg', '6700', 'Logistics', 'Large', '2022-11-08', 890000),
 ('EduTech Solutions', 'Thomas Møller', 'thomas@edutech.dk', '+45 42 78 90 12', 'Læringsgade 34', 'København', '2200', 'Education', 'Small', '2024-01-20', 125000),
-('SmartHome Danmark', 'Line Pedersen', 'line@smarthome.dk', '+45 52 89 01 23', 'Teknologivej 19', 'Herning', '7400', 'Technology', 'Small', '2023-09-15', 180000);
+('SmartHome Danmark', 'Line Pedersen', 'line@smarthome.dk', '+45 52 89 01 23', 'Teknologivej 19', 'Herning', '7400', 'Technology', 'Small', '2023-09-15', 180000),
+('Vestjysk Bank', 'Henrik Skov', 'henrik@vestjyskbank.dk', '+45 75 12 34 56', 'Bankgade 12', 'Vejle', '7100', 'Finance', 'Large', '2022-05-18', 850000),
+('Jyske IT Solutions', 'Dorte Madsen', 'dorte@jyskeit.dk', '+45 86 23 45 67', 'IT-parken 45', 'Randers', '8900', 'Technology', 'Medium', '2023-08-25', 320000),
+('Horsepower Logistik', 'Bent Nielsen', 'bent@horsepower.dk', '+45 75 34 56 78', 'Industrivej 78', 'Horsens', '8700', 'Logistics', 'Medium', '2023-03-10', 290000),
+('Silkeborg Software', 'Susanne Berg', 'susanne@silkesof.dk', '+45 86 45 67 89', 'Softvej 23', 'Silkeborg', '8600', 'Software', 'Small', '2024-02-14', 165000),
+('Kolding Consulting', 'Martin Holm', 'martin@kolconsult.dk', '+45 75 56 78 90', 'Rådgivervej 5', 'Kolding', '6000', 'Consulting', 'Small', '2023-11-22', 135000);
 
 -- Indsæt deals (potentielle og aktuelle projekter)
 INSERT INTO deals (customer_id, title, description, value, probability, stage, expected_close_date, assigned_consultant_id) VALUES
