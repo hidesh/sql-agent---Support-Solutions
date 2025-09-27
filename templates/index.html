@@ -658,13 +658,25 @@
                                     </table>
                                 </div>
                             {% else %}
-                                <div class="alert alert-warning alert-custom">
-                                    <span class="status-indicator status-warning"></span>
-                                    Ingen CRM data fundet for denne forespørgsel.
-                                    <div class="mt-2 small">
-                                        Prøv at udvide søgekriterierne eller vælg et af eksemplerne ovenfor.
+                                {% if ai_explanation %}
+                                    <div class="alert alert-info alert-custom">
+                                        <div class="d-flex align-items-start">
+                                            <span class="me-3" style="font-size: 1.5rem;">🤖</span>
+                                            <div>
+                                                <strong>AI Assistent:</strong>
+                                                <div class="mt-2">{{ ai_explanation }}</div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                {% else %}
+                                    <div class="alert alert-warning alert-custom">
+                                        <span class="status-indicator status-warning"></span>
+                                        Ingen CRM data fundet for denne forespørgsel.
+                                        <div class="mt-2 small">
+                                            Prøv at udvide søgekriterierne eller vælg et af eksemplerne ovenfor.
+                                        </div>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     {% endif %}
@@ -676,7 +688,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Loading Animation
+        // Loading Animation med Robot
         function showLoading() {
             // Først skjul search section
             const searchSection = document.querySelector('.search-section');
@@ -692,7 +704,7 @@
                 const loadingHTML = `
                     <div class="result-section">
                         <div class="loading-container">
-                            <div class="loader"></div>
+                            <div class="loading-spinner">⚙️</div>
                             <div class="loading-text">
                                 <i class="fas fa-brain me-2"></i>AI analyserer dit CRM spørgsmål...
                             </div>
@@ -704,7 +716,7 @@
                 // Erstat indhold med loading
                 resultSection.innerHTML = `
                     <div class="loading-container">
-                        <div class="loader"></div>
+                        <div class="loading-spinner">⚙️</div>
                         <div class="loading-text">
                             <i class="fas fa-brain me-2"></i>AI analyserer dit CRM spørgsmål...
                         </div>

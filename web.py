@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
-from app.agent import ask
+from app.agent import ask, generate_explanation
 from app.db import run_query
 import os
 
@@ -26,8 +26,18 @@ def index():
                 if "error" in result:
                     session['error'] = result["error"]
                 else:
-                    session['answer'] = result.get("rows", [])
+                    answer = result.get("rows", [])
+                    session['answer'] = answer
                     session.pop('error', None)
+                    
+                    # Generate AI explanation if no results found
+                    if not answer or len(answer) == 0:
+                        try:
+                            explanation = generate_explanation(question, session['sql'])
+                            session['ai_explanation'] = explanation
+                        except Exception as e:
+                            # Fallback explanation if AI fails
+                            session['ai_explanation'] = f"🤖 Jeg kunne ikke finde data for dit spørgsmål '{question}'. Prøv at omformulere eller brug en af eksemplerne til inspiration."
                     
             except Exception as e:
                 session['error'] = f"Der opstod en fejl: {str(e)}"
@@ -41,12 +51,14 @@ def index():
     answer = session.pop('answer', None)
     sql = session.pop('sql', None)
     error = session.pop('error', None)
+    ai_explanation = session.pop('ai_explanation', None)
 
     return render_template("index.html", 
                          question=question, 
                          sql=sql, 
                          answer=answer, 
                          error=error,
+                         ai_explanation=ai_explanation,
                          ai_available=ai_available)
 
 @app.route("/api/crm/stats")

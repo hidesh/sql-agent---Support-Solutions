@@ -57,6 +57,21 @@ graph TB
     F --> G
 ```
 
+## 🔧 Kodearkitektur
+
+**Modulær Design:**
+- 🧠 **`app/prompt.py`** - Centraliseret prompt management med specialiserede prompts
+- 🤖 **`app/agent.py`** - AI logik og SQL generering med clean error handling  
+- 🗄️ **`app/db.py`** - Database abstraction layer med connection pooling
+- ⚙️ **`app/config.py`** - Centraliseret konfigurationshåndtering
+- 🌐 **`web.py`** - Flask routing og session management
+
+**AI Prompt System:**
+- 📝 **System Prompt** - Hovedprompt med geografisk og business intelligens
+- 🚨 **Error Handling** - Brugervenslige fejlbeskeder på dansk
+- ✅ **Success Messages** - Konsistente succesbeskeder med emojis
+- 🎯 **Specialized Prompts** - Fremtidig udvidelse til analytics, sales, osv.
+
 ## 🔄 AI Query Process Flow
 
 ```mermaid
@@ -83,11 +98,11 @@ sequenceDiagram
 sql-agent/
 ├── app/
 │   ├── __init__.py
-│   ├── agent.py          # AI SQL agent
+│   ├── agent.py          # AI SQL agent - hovedlogik
 │   ├── config.py         # Konfiguration
 │   ├── db.py            # Database forbindelse
 │   ├── demo_data.sql    # CRM demo data
-│   └── prompt.py        # AI prompts
+│   └── prompt.py        # AI prompts og beskeder
 ├── data/
 │   └── example.db       # SQLite database
 ├── static/
