@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Konsulenter Test</title>
+</head>
+<body>
+    <h1>Konsulenter Test</h1>
+    
+    <h2>Stats:</h2>
+    <p>Total: {{ stats.total_consultants }}</p>
+    <p>Active: {{ stats.active_consultants }}</p>
+    
+    <h2>Konsulenter:</h2>
+    <ul>
+    {% for consultant in consultants %}
+        <li>
+            <strong>{{ consultant.name }}</strong> - 
+            {{ consultant.speciality }} - 
+            {{ consultant.hourly_rate }} DKK/t - 
+            {{ consultant.status }}
+        </li>
+    {% endfor %}
+    </ul>
+    
+    <p>Antal konsulenter i loop: {{ consultants|length }}</p>
+</body>
+</html>

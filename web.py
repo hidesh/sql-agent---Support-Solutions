@@ -245,8 +245,8 @@ def consultants():
         
         # Consultant statistics
         stats = {
-            'total': len(consultants_data),
-            'active': len([c for c in consultants_data if c['status'] == 'Active']),
+            'total_consultants': len(consultants_data),
+            'active_consultants': len([c for c in consultants_data if c['status'] == 'Active']),
             'avg_rate': sum([c['hourly_rate'] for c in consultants_data]) / len(consultants_data) if consultants_data else 0,
             'total_projects': sum([c['project_count'] for c in consultants_data])
         }

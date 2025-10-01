@@ -13,8 +13,8 @@ def main():
     
     # 3. Indsæt en ny kunde (demo)
     run_action(
-        "INSERT INTO customers (id, name, email, country) VALUES (?, ?, ?, ?)", 
-        (999, "Test Kunde", "test@example.com", "Denmark")
+        "INSERT INTO customers (id, company_name, contact_person, email, city) VALUES (?, ?, ?, ?, ?)", 
+        (999, "Test Kunde ApS", "Test Manager", "test@example.com", "Copenhagen")
     )
     print("Ny kunde indsat.")
 
@@ -22,9 +22,9 @@ def main():
     new_customer = run_query("SELECT * FROM customers WHERE id = ?", (999,))
     print("Ny kunde hentet:", new_customer)
     
-    # 5. Vis alle danske kunder
-    danish_customers = run_query("SELECT * FROM customers WHERE country = ?", ("Denmark",))
-    print("Danske kunder:", danish_customers)
+    # 5. Vis alle kunder fra Copenhagen
+    copenhagen_customers = run_query("SELECT * FROM customers WHERE city = ?", ("Copenhagen",))
+    print("Kunder fra Copenhagen:", copenhagen_customers)
     
     # 6. Test AI agent
     print("\n=== AI Agent Test ===")

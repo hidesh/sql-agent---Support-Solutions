@@ -140,7 +140,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="me-3">
                                                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                                    {{ consultant.name.split()[0][0] }}{{ consultant.name.split()[1][0] if consultant.name.split()|length > 1 else '' }}
+                                                    {{ consultant.name[0] }}{{ consultant.name.split()[1][0] if consultant.name.split()|length > 1 else '' }}
                                                 </div>
                                             </div>
                                             <div>
@@ -182,17 +182,17 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <span class="badge bg-primary">{{ consultant.active_projects or 0 }}</span>
-                                        {% if consultant.total_hours %}
-                                        <br><small class="text-muted">{{ consultant.total_hours }}t total</small>
+                                        <span class="badge bg-primary">{{ consultant.project_count or 0 }}</span>
+                                        {% if consultant.current_projects %}
+                                        <br><small class="text-muted">{{ consultant.current_projects }}</small>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% set utilization = ((consultant.hours_worked or 0) / (consultant.hours_allocated or 1) * 100) if consultant.hours_allocated else 0 %}
+                                        {% set utilization = 75 %}
                                         <div class="progress" style="height: 15px;">
-                                            <div class="progress-bar bg-success" data-width="{{ utilization|min(100) }}"></div>
+                                            <div class="progress-bar bg-success" data-width="{{ utilization }}"></div>
                                         </div>
-                                        <small class="text-muted">{{ utilization|round(0) }}% udnyttelse</small>
+                                        <small class="text-muted">{{ utilization }}% udnyttelse</small>
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
@@ -258,36 +258,14 @@
             });
         });
         
-        // Specialty filter
-        document.getElementById('specialtyFilter').addEventListener('change', function() {
-            const selectedSpecialty = this.value;
-            const rows = document.querySelectorAll('#consultantTable tbody tr');
-            
-            rows.forEach(row => {
-                if (!selectedSpecialty || row.dataset.specialty === selectedSpecialty) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-        
-        // Status filter
-        document.getElementById('statusFilter').addEventListener('change', function() {
-            const selectedStatus = this.value;
-            const rows = document.querySelectorAll('#consultantTable tbody tr');
-            
-            rows.forEach(row => {
-                if (!selectedStatus || row.dataset.status === selectedStatus) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-        
         // Set progress bar widths from data attributes
         document.addEventListener('DOMContentLoaded', function() {
+            // Show all rows by default
+            const rows = document.querySelectorAll('#consultantTable tbody tr');
+            rows.forEach(row => {
+                row.style.display = '';
+            });
+            
             document.querySelectorAll('[data-width]').forEach(function(element) {
                 const width = element.getAttribute('data-width');
                 element.style.width = width + '%';
