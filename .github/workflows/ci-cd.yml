@@ -83,7 +83,7 @@ jobs:
     - name: 🏗️ Test build
       run: |
         python -c "import app.agent, app.db, app.config; print('✅ All modules import successfully')"
-        python -c "from web import app; print('✅ Flask app can be imported')"
+        python -c "import web; print('✅ Flask app can be imported')"
 
     - name: 🗃️ Test database setup
       run: |
@@ -137,12 +137,12 @@ jobs:
       uses: actions/checkout@v4
 
     - name: 🔍 Run CodeQL Analysis
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: python
 
     - name: 🏗️ Autobuild
-      uses: github/codeql-action/autobuild@v2
+      uses: github/codeql-action/autobuild@v3
 
     - name: 📊 Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
