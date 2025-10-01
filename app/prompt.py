@@ -84,92 +84,95 @@ Skriv KUN SQL'en, intet andet.
 
 # Error handling prompts
 ERROR_PROMPTS = {
-    'no_api_key': "OpenAI API key mangler. Systemet kører i demo mode.",
-    'sql_error': "Der opstod en fejl i SQL udførelsen. Prøv at omformulere spørgsmålet.",
-    'empty_result': "Ingen data fundet for denne forespørgsel. Prøv andre søgekriterier."
+    "no_api_key": "OpenAI API key mangler. Systemet kører i demo mode.",
+    "sql_error": "Der opstod en fejl i SQL udførelsen. Prøv at omformulere spørgsmålet.",
+    "empty_result": "Ingen data fundet for denne forespørgsel. Prøv andre søgekriterier.",
 }
 
 # Validation prompts
 VALIDATION_PROMPTS = {
-    'geographic': "Kontroller at geografiske referencer konverteres korrekt til postnumre eller bynavn.",
-    'business_logic': "Sikr at business logik som 'store kunder', 'nye kunder' osv. håndteres intelligent.",
-    'join_tables': "Brug JOINs når data fra flere tabeller skal kombineres."
+    "geographic": "Kontroller at geografiske referencer konverteres korrekt til postnumre eller bynavn.",
+    "business_logic": "Sikr at business logik som 'store kunder', 'nye kunder' osv. håndteres intelligent.",
+    "join_tables": "Brug JOINs når data fra flere tabeller skal kombineres.",
 }
 
 # Success messages
 SUCCESS_MESSAGES = {
-    'query_generated': "📝 Genereret SQL:",
-    'data_found': "✅ Data hentet succesfuldt",
-    'geographic_match': "🗺️ Geografisk søgning anvendt"
+    "query_generated": "📝 Genereret SQL:",
+    "data_found": "✅ Data hentet succesfuldt",
+    "geographic_match": "🗺️ Geografisk søgning anvendt",
 }
+
 
 def get_system_prompt():
     """
     Returnerer hovedsystem prompten til AI agenten.
-    
+
     Returns:
         str: Komplet system prompt til OpenAI
     """
     return SYSTEM_PROMPT
 
+
 def get_error_message(error_type: str) -> str:
     """
     Returnerer passende fejlbesked baseret på fejltype.
-    
+
     Args:
         error_type (str): Type af fejl ('no_api_key', 'sql_error', 'empty_result')
-        
+
     Returns:
         str: Brugervenslig fejlbesked på dansk
     """
     return ERROR_PROMPTS.get(error_type, "Der opstod en uventet fejl.")
 
+
 def get_success_message(message_type: str) -> str:
     """
     Returnerer succes besked baseret på type.
-    
+
     Args:
         message_type (str): Type af besked
-        
+
     Returns:
         str: Succes besked med emoji
     """
     return SUCCESS_MESSAGES.get(message_type, "✅ Handling fuldført")
 
+
 # Future expansion: Specialized prompts for different use cases
 SPECIALIZED_PROMPTS = {
-    'analytics': """
+    "analytics": """
     Du specialiserer dig i analytiske CRM queries med fokus på:
     - Tidsserie analyser (månedlig/årlig udvikling)
     - Geografisk fordeling og trends  
     - Performance metrics og KPIer
     - Sammenligning mellem regioner/brancher
     """,
-    
-    'sales': """
+    "sales": """
     Du fokuserer på sales-relaterede queries med fokus på:
     - Deal pipeline analyse
     - Konsulent performance
     - Konverteringsrater mellem stages
     - Revenue forecasting
     """,
-    
-    'customer_management': """
+    "customer_management": """
     Du specialiserer dig i kunde-relaterede queries med fokus på:
     - Kunde segmentering
     - Lifetime value beregninger
     - Churn analyse
     - Geografisk kundefordeling
-    """
+    """,
 }
+
 
 def get_specialized_prompt(prompt_type: str) -> str:
     """
     Returnerer specialiseret prompt til specifikke use cases.
-    
+
     Args:
         prompt_type (str): Type af specialiseret prompt
-        
+
     Returns:
         str: Specialiseret prompt eller tom string hvis ikke fundet
     """

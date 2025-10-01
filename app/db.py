@@ -3,9 +3,11 @@ from pathlib import Path
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "example.db"
 
+
 def get_connection():
     """Åbn en forbindelse til SQLite databasen."""
     return sqlite3.connect(DB_PATH)
+
 
 def run_query(query: str, params: tuple = ()):
     """Kør en SELECT query og returner resultater som liste af dicts."""
@@ -16,6 +18,7 @@ def run_query(query: str, params: tuple = ()):
     rows = cur.fetchall()
     conn.close()
     return [dict(row) for row in rows]
+
 
 def run_action(query: str, params: tuple = ()):
     """Kør en INSERT/UPDATE/DELETE query."""
