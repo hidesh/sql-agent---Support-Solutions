@@ -11,9 +11,9 @@ import pytest
 # Add the project root to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from app.config import DB_PATH
-from app.db import run_query
-from web import app
+from app.config import DB_PATH  # noqa: E402
+from app.db import run_query  # noqa: E402
+from web import app  # noqa: E402
 
 
 class TestDatabase:

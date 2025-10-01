@@ -14,7 +14,8 @@ def main():
 
     # 3. Indsæt en ny kunde (demo)
     run_action(
-        "INSERT INTO customers (id, company_name, contact_person, email, city) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO customers (id, company_name, contact_person, email, city) "
+        "VALUES (?, ?, ?, ?, ?)",
         (999, "Test Kunde ApS", "Test Manager", "test@example.com", "Copenhagen"),
     )
     print("Ny kunde indsat.")

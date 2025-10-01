@@ -3,7 +3,6 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from app.config import DB_PATH
 from app.db import run_query
 from app.prompt import get_error_message, get_success_message, get_system_prompt
 
@@ -73,7 +72,8 @@ Du er en hjælpsom CRM assistent. En bruger spurgte: "{question}"
 
 SQL query var: {sql}
 
-Der blev ikke fundet nogen data. Giv et kort, venskabeligt svar (max 2 sætninger) på dansk der:
+Der blev ikke fundet nogen data. Giv et kort, venskabeligt svar
+(max 2 sætninger) på dansk der:
 1. Bekræfter hvad de spurgte om
 2. Foreslår hvad de kunne prøve i stedet
 
@@ -88,5 +88,8 @@ Vær positiv og hjælpsom.
             max_tokens=100,
         )
         return response.choices[0].message.content.strip()
-    except:
-        return "Der blev ikke fundet nogen data for denne forespørgsel. Prøv at udvide søgekriterierne eller vælg et af eksemplerne ovenfor."
+    except Exception:
+        return (
+            "Der blev ikke fundet nogen data for denne forespørgsel. "
+            "Prøv at udvide søgekriterierne eller vælg et af eksemplerne ovenfor."
+        )

@@ -1,6 +1,14 @@
 import os
 
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for
+from flask import (
+    Flask,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
 from app.agent import ask, generate_explanation
 from app.db import run_query
@@ -22,7 +30,8 @@ def index():
 
         if not ai_available:
             session["error"] = (
-                "⚠️ AI-funktionalitet er ikke tilgængelig. Tilføj din OpenAI API key til .env filen for fuld CRM funktionalitet."
+                "⚠️ AI-funktionalitet er ikke tilgængelig. Tilføj din OpenAI "
+                "API key til .env filen for fuld CRM funktionalitet."
             )
             session["sql"] = "-- AI ikke tilgængelig - prøv med eksemplerne"
         else:
@@ -43,10 +52,12 @@ def index():
                         try:
                             explanation = generate_explanation(question, session["sql"])
                             session["ai_explanation"] = explanation
-                        except Exception as e:
+                        except Exception:
                             # Fallback explanation if AI fails
                             session["ai_explanation"] = (
-                                f"🤖 Jeg kunne ikke finde data for dit spørgsmål '{question}'. Prøv at omformulere eller brug en af eksemplerne til inspiration."
+                                f"🤖 Jeg kunne ikke finde data for dit spørgsmål "
+                                f"'{question}'. Prøv at omformulere eller brug en "
+                                f"af eksemplerne til inspiration."
                             )
 
             except Exception as e:
@@ -83,7 +94,9 @@ def crm_stats():
 
         # Customer stats
         customer_stats = run_query(
-            "SELECT COUNT(*) as total, COUNT(CASE WHEN status = 'Active' THEN 1 END) as active FROM customers"
+            "SELECT COUNT(*) as total, "
+            "COUNT(CASE WHEN status = 'Active' THEN 1 END) as active "
+            "FROM customers"
         )
         stats["customers"] = (
             customer_stats[0] if customer_stats else {"total": 0, "active": 0}
@@ -91,7 +104,9 @@ def crm_stats():
 
         # Deal stats
         deal_stats = run_query(
-            "SELECT COUNT(*) as total, SUM(value) as total_value, AVG(probability) as avg_probability FROM deals WHERE stage NOT IN ('Closed Won', 'Closed Lost')"
+            "SELECT COUNT(*) as total, SUM(value) as total_value, "
+            "AVG(probability) as avg_probability FROM deals "
+            "WHERE stage NOT IN ('Closed Won', 'Closed Lost')"
         )
         stats["deals"] = (
             deal_stats[0]
@@ -101,7 +116,9 @@ def crm_stats():
 
         # Project stats
         project_stats = run_query(
-            "SELECT COUNT(*) as total, COUNT(CASE WHEN status = 'In Progress' THEN 1 END) as active FROM projects"
+            "SELECT COUNT(*) as total, "
+            "COUNT(CASE WHEN status = 'In Progress' THEN 1 END) as active "
+            "FROM projects"
         )
         stats["projects"] = (
             project_stats[0] if project_stats else {"total": 0, "active": 0}
@@ -109,7 +126,8 @@ def crm_stats():
 
         # Consultant stats
         consultant_stats = run_query(
-            "SELECT COUNT(*) as total, AVG(hourly_rate) as avg_rate FROM consultants WHERE status = 'Active'"
+            "SELECT COUNT(*) as total, AVG(hourly_rate) as avg_rate "
+            "FROM consultants WHERE status = 'Active'"
         )
         stats["consultants"] = (
             consultant_stats[0] if consultant_stats else {"total": 0, "avg_rate": 0}
@@ -128,10 +146,10 @@ def dashboard_data():
         # Recent activities
         recent_activities = run_query(
             """
-            SELECT a.type, a.subject, a.activity_date, c.company_name 
-            FROM activities a 
-            LEFT JOIN customers c ON a.customer_id = c.id 
-            ORDER BY a.activity_date DESC 
+            SELECT a.type, a.subject, a.activity_date, c.company_name
+            FROM activities a
+            LEFT JOIN customers c ON a.customer_id = c.id
+            ORDER BY a.activity_date DESC
             LIMIT 5
         """
         )
@@ -179,7 +197,7 @@ def customers():
         # Get all customers with stats
         customers_data = run_query(
             """
-            SELECT c.*, 
+            SELECT c.*,
                    COUNT(d.id) as deal_count,
                    COALESCE(SUM(d.value), 0) as total_deal_value,
                    COUNT(p.id) as project_count
@@ -289,7 +307,7 @@ def consultants():
         # Get all consultants with project assignments
         consultants_data = run_query(
             """
-            SELECT c.*, 
+            SELECT c.*,
                    COUNT(pc.project_id) as project_count,
                    GROUP_CONCAT(p.name, ', ') as current_projects
             FROM consultants c
@@ -332,7 +350,7 @@ def activities():
         # Get all activities with related customer and consultant info
         activities_data = run_query(
             """
-            SELECT a.*, 
+            SELECT a.*,
                    c.company_name as customer_name,
                    co.name as consultant_name
             FROM activities a
@@ -390,7 +408,7 @@ def status():
     try:
         test_result = run_query("SELECT COUNT(*) as count FROM customers LIMIT 1")
         customer_count = test_result[0]["count"] if test_result else 0
-    except Exception as e:
+    except Exception:
         db_available = False
         customer_count = 0
 
@@ -407,7 +425,7 @@ def status():
 
 if __name__ == "__main__":
     print("🚀 Starter Support Solutions CRM System...")
-    print(f"🌐 Åbn din browser på: http://localhost:5001")
+    print("🌐 Åbn din browser på: http://localhost:5001")
 
     ai_available = (
         os.environ.get("OPENAI_API_KEY")
