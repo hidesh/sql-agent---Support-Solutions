@@ -5,8 +5,7 @@ from openai import OpenAI
 
 from app.config import DB_PATH
 from app.db import run_query
-from app.prompt import (get_error_message, get_success_message,
-                        get_system_prompt)
+from app.prompt import get_error_message, get_success_message, get_system_prompt
 
 # Load environment variables
 load_dotenv()

@@ -1,7 +1,6 @@
 import os
 
-from flask import (Flask, jsonify, redirect, render_template, request, session,
-                   url_for)
+from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 
 from app.agent import ask, generate_explanation
 from app.db import run_query
